@@ -1,0 +1,258 @@
+
+/* GENERAL PAGE STYLING */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background:
+        linear-gradient(
+            rgba(237, 244, 235, 0.72),
+            rgba(237, 244, 235, 0.72)
+        ),
+        url("https://images.unsplash.com/photo-1497250681960-ef046c08a56e?auto=format&fit=crop&w=2000&q=85");
+
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: #354936;
+}
+
+/* HEADER */
+header {
+    background: rgba(158, 183, 151, 0.92);
+    text-align: center;
+    padding: 35px 15px;
+    color: #263d2b;
+}
+
+header h1 {
+    margin: 0 0 10px;
+    font-size: 32px;
+}
+
+header p {
+    margin: 0;
+    font-size: 16px;
+}
+
+/* MAIN CONTENT */
+main {
+    max-width: 950px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+/* WELCOME SECTION */
+.welcome {
+    margin-bottom: 25px;
+}
+
+.welcome h2 {
+    color: #354936;
+}
+
+.welcome p {
+    color: #647b61;
+}
+
+/* DASHBOARD STATISTICS */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.stat-card,
+.form-section,
+.assignments-section {
+    background: rgba(255, 255, 255, 0.94);
+    padding: 22px;
+    border-radius: 16px;
+    box-shadow: 0 3px 12px rgba(50, 75, 50, 0.12);
+}
+
+.stat-card {
+    text-align: center;
+}
+
+.stat-card h3 {
+    font-size: 28px;
+    color: #829b7c;
+    margin: 5px;
+}
+
+/* ASSIGNMENT FORM */
+.form-section h2 {
+    color: #354936;
+}
+
+form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+/* INPUTS AND DROPDOWNS */
+input,
+select,
+button {
+    padding: 12px;
+    border: 1px solid #cbd8c5;
+    border-radius: 9px;
+    font-size: 14px;
+    min-width: 0;
+}
+
+input,
+select {
+    background: #fbfdf9;
+    color: #354936;
+}
+
+input:focus,
+select:focus {
+    outline: 2px solid #9eb797;
+    border-color: #829b7c;
+}
+
+/* BUTTONS */
+button {
+    background: #829b7c;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    background: #657f60;
+}
+
+form button {
+    grid-column: 1 / -1;
+}
+
+/* ASSIGNMENTS SECTION */
+.assignments-section {
+    margin-top: 25px;
+}
+
+.assignments-section h2 {
+    color: #354936;
+}
+
+/* SEARCH AND FILTER */
+.filters {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.filters input {
+    flex: 1;
+}
+
+/* INDIVIDUAL ASSIGNMENT CARDS */
+.assignment-card {
+    border: 1px solid #dce6d7;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+    background: #f8fbf6;
+}
+
+.assignment-card h3 {
+    margin-top: 0;
+    color: #354936;
+}
+
+.assignment-card p {
+    margin: 7px 0;
+}
+
+.priority {
+    font-weight: bold;
+}
+
+/* ASSIGNMENT STATUS */
+.status {
+    display: inline-block;
+    padding: 5px 9px;
+    border-radius: 20px;
+    background: #e5eee1;
+    color: #526c4d;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* ASSIGNMENT ACTION BUTTONS */
+.actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+}
+
+.actions button {
+    padding: 9px 13px;
+}
+
+.complete-btn {
+    background: #6f9b7b;
+}
+
+.complete-btn:hover {
+    background: #527d60;
+}
+
+.delete-btn {
+    background: #c77f7f;
+}
+
+.delete-btn:hover {
+    background: #ad6262;
+}
+
+.edit-btn {
+    background: #879caa;
+}
+
+.edit-btn:hover {
+    background: #667f8e;
+}
+
+/* EMPTY ASSIGNMENT MESSAGE */
+.empty-message {
+    text-align: center;
+    padding: 25px;
+    color: #82927d;
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 25px;
+    color: #526c4d;
+}
+
+/* MOBILE RESPONSIVENESS */
+@media (max-width: 600px) {
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    form {
+        grid-template-columns: 1fr;
+    }
+
+    .filters {
+        flex-direction: column;
+    }
+}
+
+
+   

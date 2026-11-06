@@ -1,0 +1,92 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudySpace - Student Assignment Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>StudySpace</h1>
+        <p>Your assignments, organized beautifully.</p>
+    </header>
+
+    <main>
+
+        <section class="welcome">
+            <h2>Welcome to StudySpace!</h2>
+            <p>Stay organized, manage your assignments, and keep track of your progress.</p>
+        </section>
+
+        <section class="stats">
+            <div class="stat-card">
+                <h3 id="totalCount">0</h3>
+                <p>Total Assignments</p>
+            </div>
+
+            <div class="stat-card">
+                <h3 id="pendingCount">0</h3>
+                <p>Pending</p>
+            </div>
+
+            <div class="stat-card">
+                <h3 id="completedCount">0</h3>
+                <p>Completed</p>
+            </div>
+        </section>
+
+        <section class="form-section">
+            <h2>Add a New Assignment</h2>
+
+            <form id="assignmentForm">
+                <input type="text" id="title" placeholder="Assignment Name" required>
+
+                <input type="text" id="course" placeholder="Course Name" required>
+
+                <input type="date" id="dueDate" required>
+
+                <select id="priority">
+                    <option value="Low">Low Priority</option>
+                    <option value="Medium" selected>Medium Priority</option>
+                    <option value="High">High Priority</option>
+                </select>
+
+                <button type="submit">Add Assignment</button>
+            </form>
+        </section>
+
+        <section class="assignments-section">
+            <h2>My Assignments</h2>
+
+            <div class="filters">
+                <input type="text" id="search" placeholder="Search assignments...">
+
+                <select id="filter">
+                    <option value="All">All Assignments</option>
+                    <option value="Upcoming">Upcoming</option>
+                    <option value="Due Today">Due Today</option>
+                    <option value="Overdue">Overdue</option>
+                    <option value="Completed">Completed</option>
+                </select>
+            </div>
+
+            <div id="assignmentList">
+                <p class="empty-message">No assignments yet. Add your first assignment!</p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>StudySpace | Stay focused. Stay organized.</p>
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
+
