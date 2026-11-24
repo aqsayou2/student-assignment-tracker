@@ -55,6 +55,7 @@ function renderAssignments() {
 
     const search = document.getElementById("search").value.toLowerCase();
     const filter = document.getElementById("filter").value;
+    const sort = document.getElementById("sort").value;
 
     const filtered = assignments.filter(assignment => {
         const matchesSearch =
@@ -67,12 +68,21 @@ function renderAssignments() {
         return matchesSearch && matchesFilter;
     });
 
-    if (filtered.length === 0) {
+    // Sort assignments by due date
+    const sorted = [...filtered].sort((a, b) => {
+        if (sort === "latest") {
+            return b.dueDate.localeCompare(a.dueDate);
+        }
+
+        return a.dueDate.localeCompare(b.dueDate);
+    });
+
+    if (sorted.length === 0) {
         assignmentList.innerHTML =
             '<p class="empty-message">No assignments found. Add one above! ♡</p>';
     }
 
-    filtered.forEach(assignment => {
+    sorted.forEach(assignment => {
         const card = document.createElement("div");
         card.className = "assignment-card";
 
@@ -166,5 +176,6 @@ function renderAssignments() {
 
 document.getElementById("search").addEventListener("input", renderAssignments);
 document.getElementById("filter").addEventListener("change", renderAssignments);
+document.getElementById("sort").addEventListener("change", renderAssignments);
 
 renderAssignments();
