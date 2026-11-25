@@ -4,10 +4,47 @@ let assignments = JSON.parse(localStorage.getItem("assignments")) || [];
 const form = document.getElementById("assignmentForm");
 const assignmentList = document.getElementById("assignmentList");
 
+// Save assignments to localStorage
 function saveAssignments() {
     localStorage.setItem("assignments", JSON.stringify(assignments));
 }
 
+// Check whether a date is a real calendar date
+function isValidDate(date) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+        return false;
+    }
+
+    const parsedDate = new Date(date + "T00:00:00");
+
+    return !Number.isNaN(parsedDate.getTime()) &&
+        parsedDate.toISOString().slice(0, 10) === date;
+}
+
+// Validate assignment information
+function validateAssignment(title, course, dueDate, priority) {
+    if (!title.trim()) {
+        return "Assignment title cannot be empty.";
+    }
+
+    if (!course.trim()) {
+        return "Course name cannot be empty.";
+    }
+
+    if (!isValidDate(dueDate)) {
+        return "Please enter a valid due date.";
+    }
+
+    const validPriorities = ["Low", "Medium", "High"];
+
+    if (!validPriorities.includes(priority)) {
+        return "Please select a valid priority.";
+    }
+
+    return null;
+}
+
+// Determine assignment status
 function getStatus(assignment) {
     if (assignment.completed) return "Completed";
 
@@ -22,6 +59,7 @@ function getStatus(assignment) {
     return "Upcoming";
 }
 
+// Add a new assignment
 form.addEventListener("submit", function(event) {
     event.preventDefault();
 
@@ -30,8 +68,10 @@ form.addEventListener("submit", function(event) {
     const dueDate = document.getElementById("dueDate").value;
     const priority = document.getElementById("priority").value;
 
-    if (!title || !course || !dueDate) {
-        alert("Please fill in all required fields.");
+    const error = validateAssignment(title, course, dueDate, priority);
+
+    if (error) {
+        alert(error);
         return;
     }
 
@@ -45,27 +85,35 @@ form.addEventListener("submit", function(event) {
     };
 
     assignments.push(assignment);
+
     saveAssignments();
     form.reset();
     renderAssignments();
 });
 
+// Display assignments
 function renderAssignments() {
     assignmentList.innerHTML = "";
 
     const search = document.getElementById("search").value.toLowerCase();
     const filter = document.getElementById("filter").value;
     const sort = document.getElementById("sort").value;
+    const priorityFilter = document.getElementById("priorityFilter").value;
 
+    // Filter assignments
     const filtered = assignments.filter(assignment => {
         const matchesSearch =
             assignment.title.toLowerCase().includes(search) ||
             assignment.course.toLowerCase().includes(search);
 
-        const matchesFilter =
+        const matchesStatus =
             filter === "All" || getStatus(assignment) === filter;
 
-        return matchesSearch && matchesFilter;
+        const matchesPriority =
+            priorityFilter === "All" ||
+            assignment.priority === priorityFilter;
+
+        return matchesSearch && matchesStatus && matchesPriority;
     });
 
     // Sort assignments by due date
@@ -82,6 +130,7 @@ function renderAssignments() {
             '<p class="empty-message">No assignments found. Add one above! ♡</p>';
     }
 
+    // Create an assignment card for each assignment
     sorted.forEach(assignment => {
         const card = document.createElement("div");
         card.className = "assignment-card";
@@ -106,16 +155,19 @@ function renderAssignments() {
         const actions = document.createElement("div");
         actions.className = "actions";
 
+        // Complete or undo assignment
         const completeButton = document.createElement("button");
         completeButton.className = "complete-btn";
         completeButton.textContent = assignment.completed ? "Undo" : "Complete";
 
         completeButton.addEventListener("click", () => {
             assignment.completed = !assignment.completed;
+
             saveAssignments();
             renderAssignments();
         });
 
+        // Edit assignment
         const editButton = document.createElement("button");
         editButton.className = "edit-btn";
         editButton.textContent = "Edit";
@@ -130,11 +182,15 @@ function renderAssignments() {
             const newDate = prompt("Due date (YYYY-MM-DD):", assignment.dueDate);
             if (newDate === null) return;
 
-            if (!newTitle.trim() || !newCourse.trim() ||
-                !/^\d{4}-\d{2}-\d{2}$/.test(newDate) ||
-                Number.isNaN(Date.parse(newDate + "T00:00:00")) ||
-                new Date(newDate + "T00:00:00").toISOString().slice(0, 10) !== newDate) {
-                alert("Please enter valid assignment information.");
+            const error = validateAssignment(
+                newTitle,
+                newCourse,
+                newDate,
+                assignment.priority
+            );
+
+            if (error) {
+                alert(error);
                 return;
             }
 
@@ -146,6 +202,7 @@ function renderAssignments() {
             renderAssignments();
         });
 
+        // Delete assignment
         const deleteButton = document.createElement("button");
         deleteButton.className = "delete-btn";
         deleteButton.textContent = "Delete";
@@ -155,6 +212,7 @@ function renderAssignments() {
                 assignments = assignments.filter(
                     item => item.id !== assignment.id
                 );
+
                 saveAssignments();
                 renderAssignments();
             }
@@ -162,9 +220,11 @@ function renderAssignments() {
 
         actions.append(completeButton, editButton, deleteButton);
         card.append(heading, course, date, priority, status, actions);
+
         assignmentList.appendChild(card);
     });
 
+    // Update dashboard counts
     document.getElementById("totalCount").textContent = assignments.length;
 
     document.getElementById("pendingCount").textContent =
@@ -174,8 +234,11 @@ function renderAssignments() {
         assignments.filter(item => item.completed).length;
 }
 
+// Event listeners for search and filters
 document.getElementById("search").addEventListener("input", renderAssignments);
 document.getElementById("filter").addEventListener("change", renderAssignments);
 document.getElementById("sort").addEventListener("change", renderAssignments);
+document.getElementById("priorityFilter").addEventListener("change", renderAssignments);
 
+// Display assignments when the page loads
 renderAssignments();
